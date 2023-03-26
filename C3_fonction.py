@@ -61,8 +61,7 @@ def Afficher(fichier):
             matrice=ajoute_int(matrice,int(temp[0]),temp[1],int(temp[2]))
             ligne = f.readline()
     print("\ntable de transition : ")
-    for c in range(lig):
-
+    for c in range(lig-1):
         print("_______________")
         for j in range(4):
             print(matrice[c-1][j],'|', end=' ')
@@ -132,7 +131,7 @@ def standard(fichier):
 
                 print("Etat initial : I")
                 print("Etat(s) terminal(aux) :",new_terminaux,final)
-                       
+                   
 def deterministe(fichier):
     transition = []
     est_deterministe = True
@@ -153,8 +152,7 @@ def deterministe(fichier):
                 est_deterministe = False
             transition.append(ligne[:2])
 
-        print("L'automate est déterministe : ", est_deterministe)               
-        
+        print("L'automate est déterministe : ", est_deterministe)                        
                    
                     
 def complet(fichier):
@@ -198,9 +196,12 @@ def complet(fichier):
             for i in range(int(nb_transition)):
                 ligne = f.readline()
                 etat.append(ligne[:1])
-
+        
             for i in etat:
                 if etat.count(i) != int(nb_symbole):
                     est_complet = False
+            
+            if int(nb_transition) != int(nb_etat)*int(nb_symbole):
+                est_complet = False
 
-            print("L'automate est complet :",est_complet,"\n")
+            print("L'automate est complet :",est_complet)

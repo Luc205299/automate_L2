@@ -69,3 +69,76 @@ def Afficher(fichier):
         print()
 
     print("\n")
+    
+    
+                       
+def deterministe(fichier):
+    transition = []
+    est_deterministe = True
+    nb_transition = 0
+    with open(fichier, 'r') as f:
+
+        #Passe les 5 premières lignes :
+        ligne = f.readline()
+        ligne = f.readline()
+        ligne = f.readline()
+        ligne = f.readline()
+        ligne = f.readline()
+        nb_transition = ligne.strip()
+
+        for i in range(int(nb_transition)):
+            ligne = f.readline()
+            if ligne[:2] in transition:
+                est_deterministe = False
+            transition.append(ligne[:2])
+
+        print("L'automate est déterministe : ", est_deterministe)                        
+                   
+                    
+def complet(fichier):
+    transition = []
+    est_deterministe = True
+    nb_transition = 0
+    with open(fichier, 'r') as f:
+
+        # Passe les 5 premières lignes :
+        ligne = f.readline()
+        ligne = f.readline()
+        ligne = f.readline()
+        ligne = f.readline()
+        ligne = f.readline()
+        nb_transition = ligne.strip()
+
+        for i in range(int(nb_transition)):
+            ligne = f.readline()
+            if ligne[:2] in transition:
+                est_deterministe = False
+            transition.append(ligne[:2])
+
+    if est_deterministe == False:
+        print("L'automate n'est pas déterministe, on ne peut donc pas dire s'il est complet")
+    else:
+        nb_etat = 0
+        nb_symbole = 0
+        est_complet = True
+        etat = []
+        with open(fichier, 'r') as f:
+
+            # Passe les 5 premières lignes :
+            ligne = f.readline()
+            nb_symbole = ligne.strip()
+            ligne = f.readline()
+            nb_etat = ligne.strip()
+            ligne = f.readline()
+            ligne = f.readline()
+            ligne = f.readline()
+
+            for i in range(int(nb_transition)):
+                ligne = f.readline()
+                etat.append(ligne[:1])
+
+            for i in etat:
+                if etat.count(i) != int(nb_symbole):
+                    est_complet = False
+
+            print("L'automate est complet :",est_complet,"\n")

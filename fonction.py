@@ -65,7 +65,7 @@ def Afficher(fichier):
 
         print("_______________")
         for j in range(4):
-            print(matrice[c][j],'|', end=' ')
+            print(matrice[c-1][j],'|', end=' ')
         print()
 
     print("\n")

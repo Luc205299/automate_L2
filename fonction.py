@@ -71,6 +71,67 @@ def Afficher(fichier):
     print("\n")
     
     
+    
+def standard(fichier):
+    #un seul état initial ?
+    est_standard = True
+    with open(fichier, 'r') as f:
+        nb_initial = 0
+        ligne = f.readline()
+        ligne = f.readline()
+        ligne = f.readline()
+        nb_initial = int(ligne[0])
+
+        if nb_initial > 1:
+            est_standard = False
+
+    #transition sur un état initial ?
+    initial = []
+    nb_transition = 0
+    with open(fichier, 'r') as f:
+        ligne = f.readline()
+        ligne = f.readline()
+        ligne = f.readline()
+        initial = ligne.strip(" ")
+        ligne = f.readline()
+        ligne = f.readline()
+        nb_transition = int(ligne)
+
+        for i in range(nb_transition):
+            ligne = f.readline()
+            if ligne[2] in initial:
+                est_standard = False
+
+
+    print("L'automate est standard :", est_standard)
+
+    if est_standard == False:
+        print("Souhaitez vous standardiser cet automate ? (o/n)")
+        reponse = input()
+
+        if reponse == 'o' or reponse == 'O':
+            with open(fichier, 'r') as f:
+                ligne = f.readline()
+                ligne = f.readline()
+                ligne = f.readline()
+                ligne = f.readline()
+                final = ligne.strip(" ")
+                ligne = f.readline()
+                final = final[2:]
+
+                print("Voici les transitions de l'automate standardisé :")
+                new_terminaux = []
+                for i in range(nb_transition):
+                    ligne = f.readline()
+                    if ligne[2] in initial and ligne[2] not in new_terminaux and ligne[2] not in final:
+                        new_terminaux.append(ligne[2])
+                    elif ligne[0] in initial:
+                        print('I',ligne[1:3])
+                    else:
+                        print(ligne[:3])
+
+                print("Etat initial : I")
+                print("Etat(s) terminal(aux) :",new_terminaux,final)
                        
 def deterministe(fichier):
     transition = []
@@ -92,7 +153,8 @@ def deterministe(fichier):
                 est_deterministe = False
             transition.append(ligne[:2])
 
-        print("L'automate est déterministe : ", est_deterministe)                        
+        print("L'automate est déterministe : ", est_deterministe)               
+        
                    
                     
 def complet(fichier):

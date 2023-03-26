@@ -62,7 +62,7 @@ def Afficher(fichier):
             ligne = f.readline()
     print("\ntable de transition : ")
     for c in range(lig):
-        print("j=",lig-1)
+
         print("_______________")
         for j in range(4):
             print(matrice[c][j],'|', end=' ')

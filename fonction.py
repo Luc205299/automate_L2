@@ -61,7 +61,7 @@ def Afficher(fichier):
             matrice=ajoute_int(matrice,int(temp[0]),temp[1],int(temp[2]))
             ligne = f.readline()
     print("\ntable de transition : ")
-    for c in range(lig-1):
+    for c in range(lig):
         print("j=",lig-1)
         print("_______________")
         for j in range(4):

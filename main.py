@@ -1,4 +1,7 @@
 import fonction as fct
 
+fichier = input("Quel fichier souhaitez-vous utiliser  ? ")
 
-fct.Afficher("C3-8.txt")
+fichier = "C3-" + str(fichier) + ".txt"
+
+fct.Afficher(fichier)

@@ -63,7 +63,7 @@ def ajoute_int(matrice, entier, a_ou_b, h):
 
 i=0
 def Afficher(fichier):
-    """Permet d'afficher la table de transition"""
+    """Permet d'afficher la table de transition, principalement que graphique (parcours de tableaux) qui va appeler la fonction ajoute_int pour creer le tableau"""
     EI=[]
 
     ET=[]
@@ -102,6 +102,13 @@ def Afficher(fichier):
     
     
 def standard(fichier):
+    """On va dans un premier temps verifier si les conditions sont True ou False:
+    False : si il y a un ou plusieurs EI, si les etats destinataire des transitions est egale aux EI.
+    True: sinon il est standardisé et il affiche.
+    Standardisation :
+    On va dans un premier temps rechercher les etats finaux et les remplacer par des I pour l'affichage, on recupere aussi les etats teerminaux. On va ensuite affiche les transitions correspondantes
+    avec les etats terminaux et initial.
+    """
     #un seul état initial ?
     est_standard = True
     with open(fichier, 'r') as f:
@@ -128,6 +135,7 @@ def standard(fichier):
 
         for i in range(nb_transition):
             ligne = f.readline()
+            print("test ",ligne[2])
             if ligne[2] in initial:
                 est_standard = False
 
@@ -145,25 +153,29 @@ def standard(fichier):
                 ligne = f.readline()
                 ligne = f.readline()
                 final = ligne.strip(" ")
-                print("f=",final)
                 ligne = f.readline()
                 final = final[2:]
-                Afficher(fichier)
+                print("f=", final) #recup l'EI
                 print("Voici les transitions de l'automate standardisé :")
                 new_terminaux = []
                 for i in range(nb_transition):
                     ligne = f.readline()
-                    if ligne[2] in initial and ligne[2] not in new_terminaux and ligne[2] not in final:
-                        new_terminaux.append(ligne[2])
+                    if ligne[2] in initial and ligne[2] not in new_terminaux and ligne[2] not in final: #recherche d'autre EI
+                        new_terminaux.append(ligne[2]) #ajoute a la liste
                     elif ligne[0] in initial:
-                        print('I',ligne[1:3])
+                        print('I',ligne[1:3]) #afficheles transition avec I
                     else:
-                        print(ligne[:3])
-
+                        print(ligne[:3]) #affiche le reste des transitions
+                """affichage final"""
                 print("Etat initial : I")
                 print("Etat(s) terminal(aux) :",new_terminaux,final)
-                   
+
+
+
 def deterministe(fichier):
+    """Permet de dire si l'automate est deterministe ou non.
+    Pour cela,on va verifier qu'un etat ne renvoie pas deux fois la meme mettre en rajoutant sa lettre dans une liste,
+     si il est detecte dans cette derniere, l'etat sera egale à False sinon il sera egale a True"""
     transition = []
     est_deterministe = True
     nb_transition = 0
@@ -180,6 +192,7 @@ def deterministe(fichier):
         for i in range(int(nb_transition)):
             ligne = f.readline()
             if ligne[:2] in transition:
+                print(ligne[:2], "?")
                 est_deterministe = False
             transition.append(ligne[:2])
 
@@ -187,6 +200,9 @@ def deterministe(fichier):
                    
                     
 def complet(fichier):
+    """ Permet de savoir si l'automate est complet ou non.
+    On verifie d'abord que ce dernier est deterministe, si ce dernier ne l'est pas on renvoie qu'il ne l'est pas.
+    Si il est deterministe,"""
     transition = []
     est_deterministe = True
     nb_transition = 0
@@ -207,7 +223,9 @@ def complet(fichier):
             transition.append(ligne[:2])
 
     if est_deterministe == False:
-        print("L'automate n'est pas déterministe, on ne peut donc pas dire s'il est complet")
+        print("L'automate n'est pas déterministe, on ne peut donc pas dire s'il est complet,"
+              "on recupere tous les etats des transitions, on compare ensuite le nombre d'etat et de symbole, si il est different, Il est False "
+              "idem si le nombre de transition est different du produit du nombre d'etat et du nombre de symbole. Si l'automate reste True alors on print qu'il est complet.")
     else:
         nb_etat = 0
         nb_symbole = 0

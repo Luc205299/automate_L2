@@ -2,31 +2,61 @@ def ajoute_int(matrice, entier, a_ou_b, h):
     """permet de remplir la table de transition"""
     if not matrice:
         if a_ou_b == 'a':
-            matrice.append([entier, h, 0, 0])
+            matrice.append([entier, " "+str(h)+" ", ' / ', ' / ',' / '])
         elif a_ou_b == 'b':
-            matrice.append([entier, 0, h, 0])
+            matrice.append([entier, ' / ', " "+str(h)+" ", ' / ',' / '])
         elif a_ou_b == 'c':
-            matrice.append([entier, 0, 0, h])
+            matrice.append([entier, ' / ', ' / ', " "+str(h)+" ",' / '])
+        elif a_ou_b == 'd':
+            matrice.append([entier, ' / ', ' / ', ' / '," "+str(h)+" "])
     else:
         for i in range(len(matrice)):
             if entier == matrice[i][0]:
                 if a_ou_b == 'a':
-                    matrice[i][1] = h
+                    if matrice[i][1] != ' / ':
+                        matrice[i][1] = str(matrice[i][1]) + ',' + str(h)
+                    else:
+                        matrice[i][1] = " "+str(h)+" "
                 elif a_ou_b == 'b':
-                    matrice[i][2] = h
+                    if matrice[i][2] != ' / ':
+                        matrice[i][2] = str(matrice[i][2]) + ',' + str(h)
+                    else:
+                        matrice[i][2] = " "+str(h)+" "
                 elif a_ou_b == 'c':
-                    matrice[i][3] = h
+                    if matrice[i][3] != ' / ':
+                        matrice[i][3] = matrice[i][3] + ',' + str(h)
+                    else:
+                        matrice[i][3] = " "+str(h)+" "
+                elif a_ou_b == 'd':
+                    if matrice[i][4] != ' / ':
+                        matrice[i][4] = str(matrice[i][4]) + ',' + str(h)
+                    else:
+                        matrice[i][4] = " "+str(h)+" "
                 break
         else:
-            matrice.append([entier] + ['/'] * (len(matrice[0]) - 1))
+            matrice.append([entier] + [' / '] * (len(matrice[0]) - 1))
             for i in range(len(matrice)):
                 if matrice[i][0] == entier:
                     if a_ou_b == 'a':
-                        matrice[i][1] = h
+                        if matrice[i][1] != ' / ':
+                            matrice[i][1] = str(matrice[i][1]) + ',' + str(h)
+                        else:
+                            matrice[i][1] = " "+str(h)+" "
                     elif a_ou_b == 'b':
-                        matrice[i][2] = h
+                        if matrice[i][2] != ' / ':
+                            matrice[i][2] = matrice[i][2] + ',' + h
+                        else:
+                            matrice[i][2] = " "+str(h)+" "
                     elif a_ou_b == 'c':
-                        matrice[i][3] = h
+                        if matrice[i][3] != ' / ':
+                            matrice[i][3] = matrice[i][3] + ',' + h
+                        else:
+                            matrice[i][3] =" "+str(h)+" "
+                    elif a_ou_b == 'd':
+                        if matrice[i][4] != ' / ':
+                            matrice[i][4] = matrice[i][4] + ',' + h
+                        else:
+                            matrice[i][4] = " "+str(h)+" "
                     break
 
     return matrice
@@ -62,11 +92,11 @@ def Afficher(fichier):
             ligne = f.readline()
     print("\ntable de transition : ")
     for c in range(lig-1):
-        print("_______________")
-        for j in range(4):
+        print("___________________________")
+        for j in range(5):
             print(matrice[c-1][j],'|', end=' ')
         print()
-
+    print("___________________________")
     print("\n")
     
     
@@ -115,9 +145,10 @@ def standard(fichier):
                 ligne = f.readline()
                 ligne = f.readline()
                 final = ligne.strip(" ")
+                print("f=",final)
                 ligne = f.readline()
                 final = final[2:]
-
+                Afficher(fichier)
                 print("Voici les transitions de l'automate standardisé :")
                 new_terminaux = []
                 for i in range(nb_transition):

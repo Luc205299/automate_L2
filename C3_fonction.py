@@ -1,5 +1,9 @@
 def ajoute_int(matrice, entier, a_ou_b, h):
-    """permet de remplir la table de transition"""
+    """permet de remplir la table de transition, si la matrice n'existe pas, alors elle sera cree avec l'ajout de l'etat dans la premiere colonne
+    puis de l'etat de destination dans la 2 3 ou 4 eme colonne selon la lettre qui est transmise.
+    Si la matrice comporte deja l'etat alors l'etat de destination sera rajouter dans l matrice a la bonne colonne.
+    Si l'etat de depart n'a pas de ligne attrité (n'est pas dans la matrice), alors on creera une nouvelle ligne dans la matrice avec l'entier
+    dans la premiere colonnepuis on repetera l'etape dernierement ennoncé"""
     if not matrice:
         if a_ou_b == 'a':
             matrice.append([entier, " "+str(h)+" ", ' / ', ' / ',' / '])
@@ -91,7 +95,7 @@ def Afficher(fichier):
             matrice=ajoute_int(matrice,int(temp[0]),temp[1],int(temp[2]))
             ligne = f.readline()
     print("\ntable de transition : ")
-    for c in range(lig-1):
+    for c in range(lig):
         print("___________________________")
         for j in range(5):
             print(matrice[c-1][j],'|', end=' ')
@@ -135,7 +139,6 @@ def standard(fichier):
 
         for i in range(nb_transition):
             ligne = f.readline()
-            print("test ",ligne[2])
             if ligne[2] in initial:
                 est_standard = False
 
@@ -155,7 +158,6 @@ def standard(fichier):
                 final = ligne.strip(" ")
                 ligne = f.readline()
                 final = final[2:]
-                print("f=", final) #recup l'EI
                 print("Voici les transitions de l'automate standardisé :")
                 new_terminaux = []
                 for i in range(nb_transition):
@@ -192,7 +194,6 @@ def deterministe(fichier):
         for i in range(int(nb_transition)):
             ligne = f.readline()
             if ligne[:2] in transition:
-                print(ligne[:2], "?")
                 est_deterministe = False
             transition.append(ligne[:2])
 
@@ -202,7 +203,8 @@ def deterministe(fichier):
 def complet(fichier):
     """ Permet de savoir si l'automate est complet ou non.
     On verifie d'abord que ce dernier est deterministe, si ce dernier ne l'est pas on renvoie qu'il ne l'est pas.
-    Si il est deterministe,"""
+    Si il est deterministe,on recupere tous les etats des transitions, on compare ensuite le nombre d'etat et de symbole, si il est different, Il est False
+    idem si le nombre de transition est different du produit du nombre d'etat et du nombre de symbole. Si l'automate reste True alors on print qu'il est complet.)"""
     transition = []
     est_deterministe = True
     nb_transition = 0
@@ -223,9 +225,8 @@ def complet(fichier):
             transition.append(ligne[:2])
 
     if est_deterministe == False:
-        print("L'automate n'est pas déterministe, on ne peut donc pas dire s'il est complet,"
-              "on recupere tous les etats des transitions, on compare ensuite le nombre d'etat et de symbole, si il est different, Il est False "
-              "idem si le nombre de transition est different du produit du nombre d'etat et du nombre de symbole. Si l'automate reste True alors on print qu'il est complet.")
+        print("L'automate n'est pas déterministe, on ne peut donc pas dire s'il est complet,")
+
     else:
         nb_etat = 0
         nb_symbole = 0
